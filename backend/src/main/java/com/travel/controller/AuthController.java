@@ -6,11 +6,14 @@ import com.travel.entity.User;
 import com.travel.repository.UserRepository;
 import com.travel.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -22,11 +25,13 @@ public class AuthController {
     private final UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
 
-    // ---------------- Register USER ----------------
     @PostMapping("/register")
-    public String register(@RequestBody UserDTO dto) {
+    public ResponseEntity<?> register(@RequestBody UserDTO dto) {
+
         if (userRepo.findByUsername(dto.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists");
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("error", "Username already exists"));
         }
 
         User user = new User();
@@ -35,14 +40,18 @@ public class AuthController {
         user.setRole(Role.USER);
         userRepo.save(user);
 
-        return "User registered successfully";
+        return ResponseEntity.ok(
+                Map.of("message", "User registered successfully")
+        );
     }
 
-    // ---------------- Register ADMIN ----------------
     @PostMapping("/register-admin")
-    public String registerAdmin(@RequestBody UserDTO dto) {
+    public ResponseEntity<?> registerAdmin(@RequestBody UserDTO dto) {
+
         if (userRepo.findByUsername(dto.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists");
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("error", "Username already exists"));
         }
 
         User admin = new User();
@@ -51,10 +60,11 @@ public class AuthController {
         admin.setRole(Role.ADMIN);
         userRepo.save(admin);
 
-        return "Admin registered successfully";
+        return ResponseEntity.ok(
+                Map.of("message", "Admin registered successfully")
+        );
     }
 
-    // ---------------- Login ----------------
     @PostMapping("/login")
     public String login(@RequestBody UserDTO dto) {
         try {
@@ -64,7 +74,6 @@ public class AuthController {
 
             User user = userRepo.findByUsername(dto.getUsername()).orElseThrow();
 
-            // ✅ Generate JWT with userId, username, role
             return jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole().name());
 
         } catch (AuthenticationException e) {
