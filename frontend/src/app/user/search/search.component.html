@@ -1,0 +1,13 @@
+<div class="container mt-5">
+  <h2>Search Destinations</h2>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" [(ngModel)]="keyword" placeholder="Enter country or capital">
+    <button class="btn btn-primary" (click)="search()">Search</button>
+  </div>
+
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let dest of results">
+      {{ dest.country }} - {{ dest.capital }} ({{ dest.region }})
+    </li>
+  </ul>
+</div>

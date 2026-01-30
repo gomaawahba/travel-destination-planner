@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">TravelApp</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+
+        <!-- For guests -->
+        <li class="nav-item" *ngIf="!isLoggedIn()">
+          <a class="nav-link" routerLink="/login">Login</a>
+        </li>
+        <li class="nav-item" *ngIf="!isLoggedIn()">
+          <a class="nav-link" routerLink="/register">Register</a>
+        </li>
+
+        <!-- For logged-in users -->
+        <li class="nav-item" *ngIf="isLoggedIn()">
+          <a class="nav-link" routerLink="/user-dashboard">User Dashboard</a>
+        </li>
+                    <li class="nav-item" *ngIf="isLoggedIn() && isAdmin()">
+            <a class="nav-link" routerLink="/all-destinations">All Destinations</a>
+            </li>
+
+
+        <!-- Admin only -->
+        <li class="nav-item" *ngIf="isLoggedIn() && isAdmin()">
+          <a class="nav-link" routerLink="/admin-dashboard">Admin Dashboard</a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn() && isAdmin()">
+          <a class="nav-link" routerLink="/bulk-destinations">Bulk Add Destinations</a>
+        </li>
+
+        <!-- Logout button -->
+        <li class="nav-item" *ngIf="isLoggedIn()">
+          <button class="btn btn-outline-light btn-sm" (click)="logout()">Logout</button>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>

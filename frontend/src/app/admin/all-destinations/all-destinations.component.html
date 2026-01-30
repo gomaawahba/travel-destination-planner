@@ -1,0 +1,30 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Country</th>
+      <th>Capital</th>
+      <th>Region</th>
+      <th>Population</th>
+      <th>Currency</th>
+      <th>Flag</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let dest of destinations">
+      <td>{{ dest.country }}</td>
+      <td>{{ dest.capital }}</td>
+      <td>{{ dest.region }}</td>
+      <td>{{ dest.population }}</td>
+      <td>{{ dest.currency }}</td>
+      <td><img [src]="dest.flagUrl" alt="flag" width="50"></td>
+      <td>
+        <button class="btn btn-danger btn-sm"
+        (click)="deleteDestination(dest.id!)">
+  Delete
+</button>
+
+    </td>
+    </tr>
+  </tbody>
+</table>

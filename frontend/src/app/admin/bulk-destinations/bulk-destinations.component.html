@@ -1,0 +1,35 @@
+<div class="container mt-5">
+  <h2>Bulk Add Destinations</h2>
+
+  <div *ngFor="let dest of destinations; let i = index" class="card mb-3 p-3">
+    <div class="row g-2">
+      <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="Country" [(ngModel)]="dest.country">
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="Capital" [(ngModel)]="dest.capital">
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="Region" [(ngModel)]="dest.region">
+      </div>
+      <div class="col-md-2">
+        <input type="number" class="form-control" placeholder="Population" [(ngModel)]="dest.population">
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="Currency" [(ngModel)]="dest.currency">
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="Flag URL" [(ngModel)]="dest.flagUrl">
+      </div>
+    </div>
+
+    <div class="mt-2 text-end">
+      <button class="btn btn-danger btn-sm" (click)="removeRow(i)" *ngIf="destinations.length > 1">Remove</button>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <button class="btn btn-secondary me-2" (click)="addRow()">Add Row</button>
+    <button class="btn btn-success" (click)="addBulkDestinations()">Add Destinations</button>
+  </div>
+</div>
